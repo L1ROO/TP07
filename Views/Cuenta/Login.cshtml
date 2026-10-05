@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="cuenta-panel">
+    <section class="cuenta-portada" aria-hidden="true">
+        <span class="marca-icono grande">◐</span>
+        <p class="portada-frase">Fotos, ideas y charlas<br />en un mismo mural.</p>
+    </section>
+
+    <section class="cuenta-form">
+        <h1>Hola de nuevo</h1>
+        <p class="cuenta-subtitulo">Entrá para ver lo que comparte tu gente.</p>
+
+        @if (ViewBag.Error != null)
+        {
+            <p class="alerta" role="alert">@ViewBag.Error</p>
+        }
+
+        <form asp-controller="Cuenta" asp-action="Login" method="post">
+            <label class="campo">
+                <span>Usuario</span>
+                <input type="text" name="nombreUsuario" value="@ViewBag.NombreUsuario" maxlength="50" autocomplete="username" required autofocus />
+            </label>
+            <label class="campo">
+                <span>Contraseña</span>
+                <input type="password" name="contrasena" maxlength="50" autocomplete="current-password" required />
+            </label>
+            <button type="submit" class="boton-principal ancho">Entrar</button>
+        </form>
+
+        <p class="cuenta-cambio">¿No tenés cuenta? <a asp-controller="Cuenta" asp-action="Registro">Registrate</a></p>
+    </section>
+</div>

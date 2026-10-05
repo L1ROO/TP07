@@ -1,0 +1,11 @@
+@model Comentario
+<li class="comentario">
+    <span class="avatar avatar-chico comentario-avatar" style="--tono:@Model.Tono">@Model.Inicial</span>
+    <div class="comentario-burbuja">
+        <div class="comentario-meta">
+            <strong class="comentario-usuario">@Model.NombreUsuario</strong>
+            <time class="comentario-fecha">@Model.FechaFormateada</time>
+        </div>
+        <p class="comentario-texto">@Model.Texto</p>
+    </div>
+</li>

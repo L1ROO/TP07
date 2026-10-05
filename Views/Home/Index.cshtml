@@ -1,0 +1,59 @@
+@model List<Publicacion>
+@{
+    ViewData["Title"] = "Inicio";
+    bool hayMas = ViewBag.HayMas;
+    string nombre = Context.Session.ObtenerNombreCompleto()?.Split(' ')[0] ?? "";
+}
+
+@* Token antifalsificación: feed.js lo manda en el header de cada POST hecho con Fetch *@
+@Html.AntiForgeryToken()
+
+<div class="feed-contenedor">
+    <header class="feed-titulo">
+        <p class="sobretitulo">Lo último en el mural</p>
+        <h1>Hola, @nombre</h1>
+    </header>
+
+    <a class="invitacion" asp-controller="Publicacion" asp-action="Crear">
+        <span class="invitacion-texto">¿Qué querés compartir hoy?</span>
+        <span class="invitacion-boton">+ Publicar</span>
+    </a>
+
+    <section id="feed" class="feed"
+             data-url-megusta="@Url.Action("MeGusta", "Publicacion")"
+             data-url-comentar="@Url.Action("Comentar", "Publicacion")"
+             data-url-obtener-mas="@Url.Action("ObtenerMas", "Publicacion")"
+             data-url-login="@Url.Action("Login", "Cuenta")"
+             data-imagen-default="@Url.Content("~/img/sin-imagen.svg")">
+        @foreach (Publicacion publicacion in Model)
+        {
+            <partial name="_Publicacion" model="publicacion" />
+        }
+    </section>
+
+    @if (Model.Count == 0)
+    {
+        <div class="vacio">
+            <p>Todavía no hay publicaciones.</p>
+            <a asp-controller="Publicacion" asp-action="Crear">Hacé la primera →</a>
+        </div>
+    }
+
+    <div class="feed-pie">
+        <button type="button" id="boton-ver-mas" class="boton-ver-mas" hidden="@(!hayMas)">Ver más</button>
+        <p id="fin-feed" class="fin-feed" hidden="@(hayMas || Model.Count == 0)">Llegaste al final del mural ✦</p>
+        <p id="error-feed" class="error-feed" role="alert" hidden></p>
+    </div>
+</div>
+
+@* Moldes vacíos que feed.js clona para agregar publicaciones y comentarios nuevos *@
+<template id="molde-publicacion">
+    <partial name="_Publicacion" model="new Publicacion()" />
+</template>
+<template id="molde-comentario">
+    <partial name="_Comentario" model="new Comentario()" />
+</template>
+
+@section Scripts {
+    <script src="~/js/feed.js" asp-append-version="true"></script>
+}

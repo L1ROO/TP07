@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Publicar";
+}
+
+<div class="crear-contenedor">
+    <header class="feed-titulo">
+        <p class="sobretitulo">Nueva publicación</p>
+        <h1>Compartí algo</h1>
+    </header>
+
+    @if (ViewBag.Error != null)
+    {
+        <p class="alerta" role="alert">@ViewBag.Error</p>
+    }
+
+    <form class="crear-form" asp-controller="Publicacion" asp-action="Crear" method="post" enctype="multipart/form-data">
+        <label class="zona-imagen" for="imagen">
+            <input type="file" id="imagen" name="imagen" accept=".jpg,.jpeg,.png,.gif,.webp" required />
+            <img id="vista-previa" alt="Vista previa de la imagen" hidden />
+            <span id="zona-texto" class="zona-texto">
+                <strong>Elegí una imagen</strong>
+                <small>JPG, PNG, GIF o WEBP · hasta 5 MB</small>
+            </span>
+        </label>
+
+        <div class="crear-campos">
+            <label class="campo">
+                <span>Título</span>
+                <input type="text" name="titulo" value="@ViewBag.Titulo" maxlength="200" required />
+            </label>
+            <label class="campo">
+                <span>Descripción</span>
+                <textarea name="descripcion" rows="5" required>@ViewBag.Descripcion</textarea>
+            </label>
+            <div class="crear-botones">
+                <a class="boton-secundario" asp-controller="Home" asp-action="Index">Cancelar</a>
+                <button type="submit" class="boton-principal">Publicar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Vista previa de la imagen elegida antes de publicar
+        document.getElementById('imagen').addEventListener('change', (e) => {
+            const vista = document.getElementById('vista-previa');
+            const texto = document.getElementById('zona-texto');
+            const archivo = e.target.files[0];
+            vista.hidden = !archivo;
+            texto.hidden = !!archivo;
+            if (archivo) vista.src = URL.createObjectURL(archivo);
+        });
+    </script>
+}

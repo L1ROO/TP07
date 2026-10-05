@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet add *)",
+      "Bash(taskkill //F //IM Tp07.exe)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\50291929\\AppData\\Local\\Temp\\claude\\c--Users-50291929-Downloads-Tp07\\4118d2c5-bea3-49c0-8942-f958431667f8\\scratchpad\\ref\\wwwroot\\img\\publicaciones"
+    ]
+  }
+}

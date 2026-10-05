@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+@{
+    string? nombreUsuario = Context.Session.ObtenerNombreUsuario();
+    string? nombreCompleto = Context.Session.ObtenerNombreCompleto();
+    string controlador = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    string accion = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+}
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] · Mural</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="@(nombreUsuario == null ? "modo-cuenta" : "modo-app")">
+
+    @if (nombreUsuario != null)
+    {
+        <div class="app">
+            <aside class="lateral">
+                <a class="marca" asp-controller="Home" asp-action="Index">
+                    <span class="marca-icono" aria-hidden="true">◐</span>
+                    <span class="marca-texto">Mural</span>
+                </a>
+
+                <nav class="menu" aria-label="Principal">
+                    <a class="menu-item @(controlador == "Home" ? "actual" : "")" asp-controller="Home" asp-action="Index">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></svg>
+                        <span>Inicio</span>
+                    </a>
+                    <a class="menu-item @(controlador == "Publicacion" && accion == "Crear" ? "actual" : "")" asp-controller="Publicacion" asp-action="Crear">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                        <span>Publicar</span>
+                    </a>
+                </nav>
+
+                <div class="perfil">
+                    <span class="avatar" style="--tono:@Avatar.Tono(nombreUsuario)">@nombreUsuario[..1].ToUpper()</span>
+                    <div class="perfil-datos">
+                        <strong>@nombreCompleto</strong>
+                        <span>@@@nombreUsuario</span>
+                    </div>
+                    <form asp-controller="Cuenta" asp-action="Logout" method="post">
+                        <button type="submit" class="boton-salir" title="Cerrar sesión" aria-label="Cerrar sesión">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3" /></svg>
+                        </button>
+                    </form>
+                </div>
+            </aside>
+
+            <main class="principal">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    else
+    {
+        <main class="cuenta">
+            @RenderBody()
+        </main>
+    }
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

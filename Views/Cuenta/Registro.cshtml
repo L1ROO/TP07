@@ -1,0 +1,51 @@
+@model Usuario
+@{
+    ViewData["Title"] = "Crear cuenta";
+}
+
+<div class="cuenta-panel">
+    <section class="cuenta-portada" aria-hidden="true">
+        <span class="marca-icono grande">◐</span>
+        <p class="portada-frase">Tu lugar en el mural<br />te está esperando.</p>
+    </section>
+
+    <section class="cuenta-form">
+        <h1>Crear cuenta</h1>
+        <p class="cuenta-subtitulo">Son solo unos datos.</p>
+
+        @if (ViewBag.Error != null)
+        {
+            <p class="alerta" role="alert">@ViewBag.Error</p>
+        }
+
+        <form asp-controller="Cuenta" asp-action="Registro" method="post">
+            <div class="fila-campos">
+                <label class="campo">
+                    <span>Nombre</span>
+                    <input type="text" name="Nombre" value="@Model.Nombre" maxlength="50" autocomplete="given-name" required />
+                </label>
+                <label class="campo">
+                    <span>Apellido</span>
+                    <input type="text" name="Apellido" value="@Model.Apellido" maxlength="50" autocomplete="family-name" required />
+                </label>
+            </div>
+            <label class="campo">
+                <span>Nombre de usuario</span>
+                <input type="text" name="NombreUsuario" value="@Model.NombreUsuario" maxlength="50" autocomplete="username" required />
+            </label>
+            <div class="fila-campos">
+                <label class="campo">
+                    <span>Contraseña</span>
+                    <input type="password" name="contrasena" minlength="6" maxlength="50" autocomplete="new-password" required />
+                </label>
+                <label class="campo">
+                    <span>Repetir contraseña</span>
+                    <input type="password" name="confirmacion" minlength="6" maxlength="50" autocomplete="new-password" required />
+                </label>
+            </div>
+            <button type="submit" class="boton-principal ancho">Crear cuenta</button>
+        </form>
+
+        <p class="cuenta-cambio">¿Ya tenés cuenta? <a asp-controller="Cuenta" asp-action="Login">Iniciá sesión</a></p>
+    </section>
+</div>

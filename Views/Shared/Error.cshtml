@@ -1,0 +1,17 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="crear-contenedor">
+    <header class="feed-titulo">
+        <p class="sobretitulo">Algo salió mal</p>
+        <h1>Ocurrió un error</h1>
+    </header>
+    <p>No pudimos procesar tu pedido. Revisá que la base de datos esté disponible e intentá de nuevo.</p>
+    @if (Model.ShowRequestId)
+    {
+        <p><small>Request ID: <code>@Model.RequestId</code></small></p>
+    }
+    <p><a asp-controller="Home" asp-action="Index">← Volver al inicio</a></p>
+</div>
